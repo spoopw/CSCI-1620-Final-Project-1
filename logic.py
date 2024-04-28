@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import *
 import re
+import csv
 from gui import *
 
 
@@ -9,6 +10,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         Basic function
         """
         super().__init__()
+        self.__total_votes = {'No vote': 0, 'Dingas': 0, 'Pingas': 0, 'Wingas': 0, 'Zingas': 0}
         self.__age = None
         self.__name = None
         self.__SSN = None
@@ -46,7 +48,7 @@ class Logic(QMainWindow, Ui_MainWindow):
     def check_information(self, name, age, SSN):
         """
         Checks to see if submitted information is valid. Only returns True (valid) if all requirements are met.
-        :param name: the name entered in the gui. No digits. Must be alphanumeric
+        :param name: the name entered in the gui. No digits.
         :param age: the age entered in the gui. Must be between 18 - 120. Only digits.
         :param SSN: the SSN entered in the gui. Must be 9 characters. Only digits
         :return: True if requirements met. False otherwise
@@ -55,9 +57,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         # Checking name
         if re.search(r'\d', name):
             self.label_agenda.setText('Name cannot contain digit')
-            return False
-        if not name.isalnum():
-            self.label_agenda.setText('Name must only contain alpha-numeric characters')
             return False
         else:
             self.label_agenda.clear()
@@ -86,6 +85,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         # Will return True ONLY if avoided all False returns
         return True
 
+
     def write(self, name, age, SSN, vote):
         """
         Writes the vote to votes.csv
@@ -103,8 +103,39 @@ class Logic(QMainWindow, Ui_MainWindow):
             f.write(SSN)
             f.write(',')
             f.write(vote)
+            f.write(',')
+            f.write('valid')
             f.write('\n')
 
     def exit(self):
-        # More later
-        exit()
+        """
+        Reads the csv file and counts up votes. Exits program.
+        """
+
+        with open('votes.csv') as f:
+            for i in f.readlines():
+                vote = i.split(',')[3]
+                if vote == 'No vote':
+                    self.__total_votes[vote] += 1
+                if vote == 'Dingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Pingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Wingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Zingas':
+                    self.__total_votes[vote] += 1
+
+            print('No vote: ', end='')
+            print(self.__total_votes['No vote'])
+            print('Dingas: ', end='')
+            print(self.__total_votes['Dingas'])
+            print('Pingas: ', end='')
+            print(self.__total_votes['Pingas'])
+            print('Wingas: ', end='')
+            print(self.__total_votes['Wingas'])
+            print('Zingas: ', end='')
+            print(self.__total_votes['Zingas'])
+
+            exit()
+
