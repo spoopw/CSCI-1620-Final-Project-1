@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import *
 import re
-import csv
+import time as t
 from gui import *
 
 
@@ -10,15 +10,19 @@ class Logic(QMainWindow, Ui_MainWindow):
         Basic function
         """
         super().__init__()
+        self.tallied: bool = False
         self.__total_votes = {'No vote': 0, 'Dingas': 0, 'Pingas': 0, 'Wingas': 0, 'Zingas': 0}
         self.__age = None
         self.__name = None
         self.__SSN = None
         self.__vote = None
+        self.__stored_SSN = []
+
         self.setupUi(self)
 
         self.button_vote.clicked.connect(lambda: self.submit())
         self.button_exit.clicked.connect(lambda: self.exit())
+        self.button_see_votes.clicked.connect(lambda: self.see_votes())
 
     def submit(self):
         """
@@ -82,9 +86,45 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.label_agenda.setText('SSN must be 9 digits long')
             return False
 
+        # Checking if SSN is already in votes.csv
+        with open('votes.csv') as f:
+            for i in f.readlines():
+                fSSN = i.split(',')[2]
+                self.__stored_SSN.append(fSSN)
+
+        if SSN in self.__stored_SSN:
+            self.label_agenda.setText('SSN already voted')
+            return False
+
         # Will return True ONLY if avoided all False returns
         return True
 
+    def see_votes(self):
+        """
+        Tallys up votes and displays them to the GUI
+        """
+
+        if not self.tallied:
+            with open('votes.csv') as f:
+                for i in f.readlines():
+                    vote = i.split(',')[3]
+                    if vote == 'No vote':
+                        self.__total_votes[vote] += 1
+                    if vote == 'Dingas':
+                        self.__total_votes[vote] += 1
+                    elif vote == 'Pingas':
+                        self.__total_votes[vote] += 1
+                    elif vote == 'Wingas':
+                        self.__total_votes[vote] += 1
+                    elif vote == 'Zingas':
+                        self.__total_votes[vote] += 1
+                self.tallied = True
+
+        self.label_agenda.setText(f'No vote: {self.__total_votes["No vote"]}\n'
+                                  f'Dingas: {self.__total_votes["Dingas"]}\n'
+                                  f'Pingas: {self.__total_votes["Pingas"]}\n'
+                                  f'Wingas: {self.__total_votes["Wingas"]}\n'
+                                  f'Zingas: {self.__total_votes["Zingas"]}\n')
 
     def write(self, name, age, SSN, vote):
         """
@@ -111,31 +151,4 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
         Reads the csv file and counts up votes. Exits program.
         """
-
-        with open('votes.csv') as f:
-            for i in f.readlines():
-                vote = i.split(',')[3]
-                if vote == 'No vote':
-                    self.__total_votes[vote] += 1
-                if vote == 'Dingas':
-                    self.__total_votes[vote] += 1
-                elif vote == 'Pingas':
-                    self.__total_votes[vote] += 1
-                elif vote == 'Wingas':
-                    self.__total_votes[vote] += 1
-                elif vote == 'Zingas':
-                    self.__total_votes[vote] += 1
-
-            print('No vote: ', end='')
-            print(self.__total_votes['No vote'])
-            print('Dingas: ', end='')
-            print(self.__total_votes['Dingas'])
-            print('Pingas: ', end='')
-            print(self.__total_votes['Pingas'])
-            print('Wingas: ', end='')
-            print(self.__total_votes['Wingas'])
-            print('Zingas: ', end='')
-            print(self.__total_votes['Zingas'])
-
-            exit()
-
+        exit()
