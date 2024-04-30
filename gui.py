@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'gui6.ui'
+# Form implementation generated from reading ui file 'VotingGUI.ui'
 #
 # Created by: PyQt6 UI code generator 6.6.1
 #
@@ -34,7 +34,7 @@ class Ui_MainWindow(object):
         self.radio_candDingas.setChecked(False)
         self.radio_candDingas.setObjectName("radio_candDingas")
         self.button_vote = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.button_vote.setGeometry(QtCore.QRect(60, 580, 131, 51))
+        self.button_vote.setGeometry(QtCore.QRect(20, 580, 131, 51))
         font = QtGui.QFont()
         font.setPointSize(31)
         font.setBold(True)
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.button_vote.setFont(font)
         self.button_vote.setObjectName("button_vote")
         self.button_exit = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.button_exit.setGeometry(QtCore.QRect(290, 580, 131, 51))
+        self.button_exit.setGeometry(QtCore.QRect(340, 580, 131, 51))
         font = QtGui.QFont()
         font.setPointSize(31)
         font.setBold(True)
@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         font.setPointSize(25)
         self.radio_candZingas.setFont(font)
         self.radio_candZingas.setChecked(False)
-        self.radio_candZingas.setObjectName("radio_cadZingas")
+        self.radio_candZingas.setObjectName("radio_candZingas")
         self.radio_candNoVote = QtWidgets.QRadioButton(parent=self.centralwidget)
         self.radio_candNoVote.setGeometry(QtCore.QRect(170, 210, 151, 71))
         font = QtGui.QFont()
@@ -120,21 +120,32 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_SSN.setFont(font)
         self.label_SSN.setObjectName("label_SSN")
+        self.button_see_votes = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.button_see_votes.setGeometry(QtCore.QRect(180, 600, 131, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_see_votes.setFont(font)
+        self.button_see_votes.setObjectName("button_see_votes")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 20))
         self.menubar.setObjectName("menubar")
+        self.menuVote = QtWidgets.QMenu(parent=self.menubar)
+        self.menuVote.setObjectName("menuVote")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.menubar.addAction(self.menuVote.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Test 10"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Voting App"))
         self.label_title.setText(_translate("MainWindow", "CANDIDATE MENU"))
         self.radio_candDingas.setText(_translate("MainWindow", "Dingas"))
         self.button_vote.setText(_translate("MainWindow", "VOTE"))
@@ -149,6 +160,8 @@ class Ui_MainWindow(object):
         self.label_name.setText(_translate("MainWindow", "Name:"))
         self.label_age.setText(_translate("MainWindow", "Age:"))
         self.label_SSN.setText(_translate("MainWindow", "SSN:"))
+        self.button_see_votes.setText(_translate("MainWindow", "SEE VOTES"))
+        self.menuVote.setTitle(_translate("MainWindow", "Vote"))
 
 
 if __name__ == "__main__":
