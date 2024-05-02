@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import *
 import re
-import time as t
 from gui import *
 
 
@@ -10,7 +9,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         Basic function
         """
         super().__init__()
-        self.tallied: bool = False
         self.__total_votes = {'No vote': 0, 'Dingas': 0, 'Pingas': 0, 'Wingas': 0, 'Zingas': 0}
         self.__age = None
         self.__name = None
@@ -104,27 +102,27 @@ class Logic(QMainWindow, Ui_MainWindow):
         Tallys up votes and displays them to the GUI
         """
 
-        if not self.tallied:
-            with open('votes.csv') as f:
-                for i in f.readlines():
-                    vote = i.split(',')[3]
-                    if vote == 'No vote':
-                        self.__total_votes[vote] += 1
-                    if vote == 'Dingas':
-                        self.__total_votes[vote] += 1
-                    elif vote == 'Pingas':
-                        self.__total_votes[vote] += 1
-                    elif vote == 'Wingas':
-                        self.__total_votes[vote] += 1
-                    elif vote == 'Zingas':
-                        self.__total_votes[vote] += 1
-                self.tallied = True
+        with open('votes.csv') as f:
+            for i in f.readlines():
+                vote = i.split(',')[3]
+                if vote == 'No vote':
+                    self.__total_votes[vote] += 1
+                if vote == 'Dingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Pingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Wingas':
+                    self.__total_votes[vote] += 1
+                elif vote == 'Zingas':
+                    self.__total_votes[vote] += 1
 
         self.label_agenda.setText(f'No vote: {self.__total_votes["No vote"]}\n'
                                   f'Dingas: {self.__total_votes["Dingas"]}\n'
                                   f'Pingas: {self.__total_votes["Pingas"]}\n'
                                   f'Wingas: {self.__total_votes["Wingas"]}\n'
                                   f'Zingas: {self.__total_votes["Zingas"]}\n')
+        self.__total_votes = {'No vote': 0, 'Dingas': 0, 'Pingas': 0, 'Wingas': 0, 'Zingas': 0}
+
 
     def write(self, name, age, SSN, vote):
         """
